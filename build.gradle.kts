@@ -12,20 +12,23 @@ plugins {
     id("com.bmuschko.docker-spring-boot-application") version "6.1.2"
 }
 
-val gradleVersionProperty: String by project
+val gradleVersion: String by project
 val springBootVersion: String by project
 val springCloudStarterParentBomVersion: String by project
-val javaVersion: String by project
+
+if (JavaVersion.current() != JavaVersion.VERSION_11) {
+    throw GradleException("This build must be run with JDK 11")
+} else {
+    println("Building source with JDK " + JavaVersion.current())
+}
 
 tasks {
     wrapper {
         distributionType = Wrapper.DistributionType.ALL
-        gradleVersion = "$gradleVersionProperty"
+        gradleVersion = "$gradleVersion"
     }
 }
 
-// Need to define spring repos here to get access to dependencyManagement.importedProperties in config
-// phase. There must be a better way to do this without having to do again in allProjects but can't find it.
 repositories {
     mavenLocal()
     jcenter()
@@ -59,15 +62,12 @@ allprojects {
 }
 
 subprojects {
-
     apply {
         plugin("java")
     }
 
-    // The subproject is the receiver of the body
     dependencies {
-
         // Enable actuator endpoints on all services
-        "compile"("org.springframework.boot:spring-boot-starter-actuator")
+        "implementation"("org.springframework.boot:spring-boot-starter-actuator")
     }
 }
