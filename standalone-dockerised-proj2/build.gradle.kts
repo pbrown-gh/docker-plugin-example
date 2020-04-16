@@ -3,6 +3,10 @@ plugins {
     id("com.bmuschko.docker-spring-boot-application")
 }
 
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+}
+
 docker {
     springBootApplication {
         baseImage.set("openjdk:11-jre-slim")
