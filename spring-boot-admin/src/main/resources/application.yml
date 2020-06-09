@@ -1,0 +1,10 @@
+---
+server:
+  port: ${PORT:8094}
+
+spring:
+  boot:
+    admin:
+      url: http://${server.host:localhost}:${server.port:8094}
+    client:
+      prefer-ip: true

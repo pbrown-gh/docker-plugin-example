@@ -1,0 +1,32 @@
+// List of projects
+pluginManagement {
+
+    // Repos for fetching plugins
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://plugins.gradle.org/m2/" }
+        gradlePluginPortal()
+    }
+
+    // Set plugin versions here
+    plugins {
+        id "com.bmuschko.docker-spring-boot-application" version "$bmushchkoDockerPluginVersion"
+        id "com.bmuschko.docker-remote-api" version "$bmushchkoDockerPluginVersion"
+        id "org.springframework.boot" version "$springBootVersion"
+        id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+    }
+}
+plugins {
+    id "com.gradle.enterprise" version "3.2"
+}
+gradleEnterprise {
+    buildScan {
+        // plugin configuration
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+        publishAlways()
+    }
+}
+
+include 'spring-boot-admin'
